@@ -13,9 +13,9 @@ int main(int argc, char* argv[]) {
   double p[] {0.5, 0.4, 0.1, 0.1, 0.3, 0.6};
 
   HMM model(state_names.size(), observation_names.size());
-  model.initial_table = Matrix(pi, 2, 1);
-  model.transition_table = Matrix(a, 2, 2);
-  model.observation_table = Matrix(p, 2, 3);
+  model.setInitialTable(Matrix(pi, 2, 1));
+  model.setTransitionTable(Matrix(a, 2, 2));
+  model.setObservationTable(Matrix(p, 2, 3));
   
   vector<HMM::Output> observations {0, 1, 2};
   cout << "Observations: ";
@@ -36,7 +36,7 @@ int main(int argc, char* argv[]) {
   cout << "Full results:" << endl;
   for (int t = 0; t < observations.size(); t++) {
     for (int k = 0; k < state_names.size(); k++)
-      cout << v.getMatrix().at(t, k) << "\t";
+      cout << v.getProbability(k, t) << "\t";
     cout << endl;
   }
 

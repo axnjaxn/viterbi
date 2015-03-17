@@ -1,8 +1,9 @@
 #ifndef _BPJ_VITERBI_H
 #define _BPJ_VITERBI_H
 
-#include <byteimage/matrix.h>
-#include <vector>
+#include "grid.h"
+
+typedef Grid<double> Matrix;
 
 class HMM {
 public:
@@ -43,7 +44,7 @@ public:
 class Viterbi {
 protected:
   Matrix V;//V_{t,k}
-  std::vector<HMM::State> backptrs;//backptr_{t,k} stored row-major
+  Grid<HMM::State> backptrs;//backptr_{t,k} stored row-major
 
 public:
   Viterbi(const HMM& model, std::vector<HMM::Output> observations);

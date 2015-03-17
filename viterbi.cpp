@@ -63,7 +63,7 @@ double HMM::getOutputProbability(State state, Output output) const {
 
 Viterbi::Viterbi(const HMM& model, std::vector<HMM::Output> observations) : 
   V(observations.size(), model.states()), 
-  backptrs(observations.size() * model.states()) {
+  backptrs(observations.size(), model.states()) {
   for (int k = 0; k < V.cols(); k++)
     V.at(0, k) = model.initial_table.at(k) + model.observation_table.at(k, observations[0]);
 
@@ -75,7 +75,7 @@ Viterbi::Viterbi(const HMM& model, std::vector<HMM::Output> observations) :
 	p = model.observation_table.at(k, observations[t]) + model.transition_table.at(i, k) + V.at(t - 1, i);
 	if (p > V.at(t, k)) {
 	  V.at(t, k) = p;
-	  backptrs[t * model.states() + k] = i;
+	  backptrs.at(t, k) = i;
 	}
       }
     }
@@ -101,7 +101,7 @@ std::vector<HMM::State> Viterbi::getPath() const {
 
   path[path.size() - 1] = getState(path.size() - 1);
   for (int t = path.size() - 1; t > 0; t--)
-    path[t - 1] = backptrs[t * V.cols() + path[t]];
+    path[t - 1] = backptrs.at(t, path[t]);
 
   return path;
 }
